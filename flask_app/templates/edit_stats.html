@@ -9,11 +9,17 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-image: url("{{ url_for('static', filename='images/balls.JPG') }}");
+            background-size: contain;
+            background-repeat: repeat;
+            color: #495057;
         }
 
         .container {
-            margin-top: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
 
         .jumbotron {
@@ -21,45 +27,111 @@
             color: #fff;
             padding: 20px;
             margin-bottom: 30px;
+            animation: jumbotronAnimation 1.5s infinite alternate;
+        }
+
+        @keyframes jumbotronAnimation {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-5px);
+            }
         }
 
         .edit-stat-form {
-            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            width: 80%; 
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 2px; /* Adjust as needed */
+        }
+
+        .form-control {
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            padding: 10px;
+            width: 60%; 
+            transition: width 0.3s ease-in-out;
+            margin: 0 auto; 
+        }
+
+        .form-control:focus {
+            width: 100%;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            padding: 8px 15px;
+            width: 60%; 
+            margin: 15px auto; 
+            display: block; 
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #e0a800;
+        }
+
+        .back-btn {
+            margin-top: 15px;
+            text-align: center; 
+        }
+
+        .logout-btn {
+            margin-top: 15px;
+            margin-left: 10px; 
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="jumbotron text-center">
-            <h1 class="display-4">Basketball Stats App</h1>
-            <p class="lead">Edit and update your stat!</p>
-        </div>
-
         <div class="edit-stat-form">
-            <form action="/update_stat/[StatID]" method="POST">
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Basketball Stats App</h1>
+                <p class="lead">Edit your stats!</p>
+                <div class="float-left">
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+
+            <form action="/stat/update" method="POST">
+                <input type="hidden" name="id" value="{{ stat.id }}">
                 <div class="form-group">
                     <label for="points">Points:</label>
-                    <input type="number" class="form-control" name="points" value="[Points]" required>
+                    <input type="number" class="form-control" name="points" value="{{ stat.points }}">
                 </div>
                 <div class="form-group">
                     <label for="assists">Assists:</label>
-                    <input type="number" class="form-control" name="assists" value="[Assists]" required>
+                    <input type="number" class="form-control" name="assists" value="{{ stat.assists }}">
                 </div>
                 <div class="form-group">
                     <label for="rebounds">Rebounds:</label>
-                    <input type="number" class="form-control" name="rebounds" value="[Rebounds]" required>
+                    <input type="number" class="form-control" name="rebounds" value="{{ stat.rebounds }}">
                 </div>
                 <div class="form-group">
                     <label for="opponent">Opponent:</label>
-                    <input type="text" class="form-control" name="opponent" value="[Opponent]" required>
+                    <input type="text" class="form-control" name="opponent" value="{{ stat.opponent }}">
                 </div>
                 <div class="form-group">
                     <label for="date">Date:</label>
-                    <input type="date" class="form-control" name="date" value="[Date]" required>
+                    <input type="date" class="form-control" name="date" value="{{ stat.date }}">
                 </div>
-                <button type="submit" class="btn btn-warning">Update Stat</button>
+                <button type="submit" class="btn btn-warning">Update</button>
             </form>
+
+            <!-- Back to Dashboard button -->
+            <div class="back-btn">
+                <a href="/dashboard" class="btn btn-secondary">Back To Dashboard</a>
+            </div>
         </div>
     </div>
 

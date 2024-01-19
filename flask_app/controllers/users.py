@@ -1,6 +1,7 @@
 from flask import render_template, redirect, session, request, flash
 from flask_app import app
 from flask_app.models.user import User
+from flask_app.models.stat import Stat
 from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt(app)
@@ -45,11 +46,19 @@ def login():
 def dashboard():
     if "user_id" not in session:
         return redirect("/logout")
+    
     data = {"id": session["user_id"]}
-    return render_template("dashboard.html", user=User.get_by_id(data))
+    user = User.get_by_id(data)
+
+    if not user:
+        return redirect("/logout")
+
+    stats = Stat.get_stats_for_user(session['user_id'])
+
+    return render_template("dashboard.html", user = user, stats = stats)
 
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")

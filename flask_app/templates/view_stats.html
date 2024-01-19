@@ -10,6 +10,11 @@
     <style>
         body {
             background-color: #f8f9fa;
+            background-image: url("{{ url_for('static', filename='images/balls.JPG') }}");
+            background-size: contain;
+            background-repeat: repeat;
+            color: #495057;
+            padding-top: 50px; 
         }
 
         .container {
@@ -25,6 +30,34 @@
 
         .stat-details {
             margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .basketball-icon {
+            font-size: 3em;
+            color: #007bff;
+        }
+
+        .table th, .table td {
+            text-align: center;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .opponent-title {
+            color: #dc3545; /* Red color for opponent's title */
+            font-weight: bold;
+            font-size: 1.5em; /* Adjust as needed */
+        }
+
+        .opponent-name {
+            color: #dc3545; /* Red color for opponent's name */
+            font-weight: bold;
         }
     </style>
 </head>
@@ -33,36 +66,40 @@
     <div class="container">
         <div class="jumbotron text-center">
             <h1 class="display-4">Basketball Stats App</h1>
-            <p class="lead">Viewing Details of Stat #[StatID]</p>
+            <p class="lead">Stats vs <span class="opponent-title">{{ stat.opponent }}</span> <span class="basketball-icon">&#127936;</span></p>
+            <div class="float-left">
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </div>
         </div>
 
         <div class="stat-details">
             <h2>Stat Details:</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>
                         <th>Points</th>
-                        <td>[Points]</td>
+                        <td>{{ stat. points }}</td>
                     </tr>
                     <tr>
                         <th>Assists</th>
-                        <td>[Assists]</td>
+                        <td>{{ stat.assists }}</td>
                     </tr>
                     <tr>
                         <th>Rebounds</th>
-                        <td>[Rebounds]</td>
+                        <td>{{ stat.rebounds }}</td>
                     </tr>
                     <tr>
                         <th>Opponent</th>
-                        <td>[Opponent]</td>
+                        <td class="opponent-name">{{ stat.opponent }}</td>
                     </tr>
                     <tr>
                         <th>Date</th>
-                        <td>[Date]</td>
+                        <td>{{ stat.date }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <a href="/dashboard" class="btn btn-secondary">Back To Dashboard</a>
     </div>
 
     <!-- Add Bootstrap JS and Popper.js CDN links here -->

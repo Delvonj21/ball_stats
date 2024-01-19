@@ -3,8 +3,8 @@
     "version": "2.2.12",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -1.0000000000000036,
-    "scrollLeft": -25.6666666666667,
+    "scrollTop": -247.6666666666667,
+    "scrollLeft": -25.666666666666856,
     "zoomLevel": 1,
     "show": {
       "tableComment": true,
@@ -317,6 +317,29 @@
             }
           },
           {
+            "id": "1d8ea6ac-1be1-4643-bb16-bd548debf880",
+            "name": "opponent",
+            "comment": "",
+            "dataType": "VARCHAR(45)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": true
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 87.72509765625,
+              "widthDefault": 60
+            }
+          },
+          {
             "id": "6ea009e5-8a02-43a6-bb02-5a9adc0dd630",
             "name": "date",
             "comment": "",
@@ -413,7 +436,7 @@
           "active": false,
           "left": 57,
           "top": 335,
-          "zIndex": 4,
+          "zIndex": 8,
           "widthName": 60,
           "widthComment": 60
         },
@@ -446,7 +469,7 @@
           "columnIds": [
             "d808e025-6913-4aed-8846-e7b40c539f7a"
           ],
-          "x": 416.224853515625,
+          "x": 429.107421875,
           "y": 335,
           "direction": "top"
         },

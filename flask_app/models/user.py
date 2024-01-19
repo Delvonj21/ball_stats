@@ -1,4 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
+from flask_app.models.stat import Stat
 import re
 
 EMAIL_REGEX = re.compile(r"^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$")
@@ -6,6 +8,8 @@ from flask import flash
 
 
 class User:
+    DB = "ball_stats"
+    
     def __init__(self, data):
         self.id = data["id"]
         self.first_name = data["first_name"]
@@ -18,13 +22,13 @@ class User:
     @classmethod
     def save(cls, data):
         query = "INSERT INTO users (first_name, last_name, email, password) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s);"
-        return connectToMySQL("ball_stats").query_db(query, data)
+        return connectToMySQL(cls.DB).query_db(query, data)
 
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM users;"
         users = []
-        results = connectToMySQL("ball_stats").query_db(query)
+        results = connectToMySQL(cls.DB).query_db(query)
         for row in results:
             users.append(cls(row))
         return users
@@ -32,7 +36,7 @@ class User:
     @classmethod
     def get_by_email(cls, data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL("ball_stats").query_db(query, data)
+        results = connectToMySQL(cls.DB).query_db(query, data)
         if len(results) < 1:
             return False
         return cls(results[0])
@@ -40,8 +44,13 @@ class User:
     @classmethod
     def get_by_id(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
-        results = connectToMySQL("ball_stats").query_db(query, data)
+        results = connectToMySQL(cls.DB).query_db(query, data)
         return cls(results[0])
+    
+    @classmethod
+    def get_one_with_stats(cls, data):
+        query = "SELECT * FROM users LEFT JOIN stats ON users.id = stats.user_id WHERE users.id = %(id)s;"
+        results = connectToMySQL(cls.DB).query_db(query, data)
 
     @staticmethod
     def validate_register(user):

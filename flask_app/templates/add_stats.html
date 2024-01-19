@@ -9,35 +9,103 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-image: url("{{ url_for('static', filename='images/balls.JPG') }}");
+            background-size: contain;
+            background-repeat: repeat;
+            color: #495057;
         }
 
         .container {
-            margin-top: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
         }
 
         .jumbotron {
-            background-color: #007bff;
+            background-color: #28a745;
             color: #fff;
             padding: 20px;
             margin-bottom: 30px;
+            border-radius: 15px;
+            animation: jumbotronAnimation 1.5s infinite alternate;
+        }
+
+        @keyframes jumbotronAnimation {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-5px);
+            }
         }
 
         .add-stat-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            width: 80%; /* Adjust as needed */
+            text-align: center;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .form-control {
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            padding: 10px;
+            width: 60%; /* Adjust as needed */
+            transition: width 0.3s ease-in-out;
+            margin: 0 auto; /* Center the input fields */
+        }
+
+        .form-control:focus {
+            width: 100%; /* Expand on focus */
+        }
+
+        .btn-success {
+            background-color: #218838;
+            border-color: #1e7e34;
+            padding: 8px 15px; /* Adjust padding for consistency */
+            width: 60%; /* Adjust as needed */
             margin-top: 20px;
+            display: block;
+            margin: 15px auto; /* Center the button */
+        }
+
+        .btn-success:hover {
+            background-color: #1e7e34;
+            border-color: #1c7430;
+        }
+
+        .back-btn {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            margin-top: 15px;
+            margin-left: 10px;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="jumbotron text-center">
-            <h1 class="display-4">Basketball Stats App</h1>
-            <p class="lead">Add a new stat to your collection!</p>
-        </div>
-
         <div class="add-stat-form">
-            <form action="/add_stat" method="POST">
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Basketball Stats App</h1>
+                <p class="lead">Add a new stat to your collection!</p>
+                <div class="float-left">
+                    <a href="/logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+
+            <form id="statForm" action="/stat" method="POST">
                 <div class="form-group">
                     <label for="points">Points:</label>
                     <input type="number" class="form-control" name="points" required>
@@ -58,8 +126,16 @@
                     <label for="date">Date:</label>
                     <input type="date" class="form-control" name="date" required>
                 </div>
+
+                <!-- Hidden user_id-->
+                <input type="hidden" name="user_id" value="{{ user_id }}">
+
+                <!-- Submit button with success message -->
                 <button type="submit" class="btn btn-success">Add Stat</button>
             </form>
+            <div class="back-btn">
+                <a href="/dashboard" class="btn btn-secondary">Back To Dashboard</a>
+            </div>
         </div>
     </div>
 
